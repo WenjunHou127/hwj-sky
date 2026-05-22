@@ -1,0 +1,499 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.4">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+    span.s1 {font: 13.0px 'Helvetica Neue'}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="zh-CN"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;hwj &amp; sky的记忆地图 · 一周年纪念 | 上海·香港·运城&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&amp;display=swap" rel="stylesheet"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script type="importmap"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"imports": {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>"three": "https://unpkg.com/three@0.128.0/build/three.module.js",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>"three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>* { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body { font-family: 'Inter', sans-serif; overflow: hidden; background-color: #FFF9E8; color: #5C3E2B; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>#loader-screen {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #FFF9E8;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>z-index: 1000; display: flex; flex-direction: column; justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center; gap: 2rem; transition: opacity 0.6s ease-out;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.pixel-loader { text-align: center; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.pixel-title { font-family: 'Inter', monospace; font-size: 1.5rem; letter-spacing: 4px; color: #E8A87C; margin-bottom: 2rem; text-transform: uppercase; font-weight: 600; text-shadow: 2px 2px 0 #FFD4A4; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.pixel-progress-container { width: 280px; height: 24px; background: #FFEFD5; border: 3px solid #F3B27A; border-radius: 30px; overflow: hidden; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.pixel-progress-fill { width: 0%; height: 100%; background: #F3B27A; background-image: repeating-linear-gradient(90deg, #FFD8B0 0px, #FFD8B0 4px, #F3B27A 4px, #F3B27A 8px); transition: width 0.08s linear; border-radius: 30px; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.pixel-stats { display: flex; gap: 12px; margin-top: 16px; font-family: monospace; color: #D48C54; font-weight: bold; font-size: 0.9rem; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.pixel-block { width: 12px; height: 12px; background: #F3B27A; display: inline-block; margin: 0 2px; animation: blinkPixel 0.6s infinite; border-radius: 2px; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes blinkPixel { 0%, 100% { opacity: 1; transform: scale(1);} 50% { opacity: 0.4; transform: scale(0.8);} }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>#welcome-screen {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(145deg, #FFF9E8 0%, #FFF3E0 100%);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>z-index: 900; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease, visibility 0.8s;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#welcome-screen.active { opacity: 1; visibility: visible; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.welcome-card { text-align: center; padding: 48px 40px; background: rgba(255, 252, 245, 0.95); backdrop-filter: blur(10px); border-radius: 72px; max-width: 520px; margin: 20px; border: 1px solid #FFE4C0; box-shadow: 0 30px 50px rgba(0,0,0,0.08); transition: transform 0.3s ease; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.welcome-card:hover { transform: translateY(-4px); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.welcome-icon { font-size: 4.5rem; margin-bottom: 16px; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.welcome-title { font-size: 2rem; font-weight: 700; color: #D98A5C; margin-bottom: 12px; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.welcome-subtitle { font-size: 1.1rem; color: #B87A54; margin-bottom: 24px; font-weight: 500; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.welcome-message { font-size: 1rem; line-height: 1.6; color: #7A5A44; margin-bottom: 36px; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.enter-btn { background: #F3B27A; border: none; padding: 14px 40px; border-radius: 50px; color: white; font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 0 #D48C54; font-family: 'Inter', sans-serif; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.enter-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #D48C54; background: #F5BF8A; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>#main-app { position: relative; width: 100vw; height: 100vh; opacity: 0; transition: opacity 1s ease; visibility: hidden; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#main-app.visible { opacity: 1; visibility: visible; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.hand-drawn-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.hand-drawn-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.2; mix-blend-mode: multiply; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#canvas-container { width: 100%; height: 100%; display: block; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.anniversary-tag { position: absolute; bottom: 24px; left: 28px; z-index: 20; background: rgba(255, 248, 235, 0.9); backdrop-filter: blur(8px); padding: 10px 24px; border-radius: 60px; font-weight: 600; font-size: 0.9rem; color: #D98A5C; border: 1px solid #FFE0B5; font-family: monospace; cursor: pointer; transition: all 0.3s; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.anniversary-tag:hover { background: #FFF5E8; transform: scale(1.02); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.explore-hint { position: absolute; bottom: 28px; right: 28px; z-index: 20; background: rgba(255, 242, 225, 0.75); backdrop-filter: blur(5px); padding: 8px 16px; border-radius: 40px; color: #C98A60; font-size: 0.75rem; pointer-events: none; font-family: monospace; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.story-modal {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.45);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>backdrop-filter: blur(16px); z-index: 200; display: flex; justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center; visibility: hidden; opacity: 0; transition: visibility 0.2s, opacity 0.35s ease;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.story-modal.active { visibility: visible; opacity: 1; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.story-card {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 90%; max-width: 650px; max-height: 85vh; background: rgba(255, 254, 250, 0.98);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 48px; overflow-y: auto; box-shadow: 0 35px 55px -15px rgba(0, 0, 0, 0.2);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: scale(0.96); transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.story-modal.active .story-card { transform: scale(1); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.story-card::-webkit-scrollbar { width: 5px; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.story-card::-webkit-scrollbar-track { background: #FFF0E0; border-radius: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.story-card::-webkit-scrollbar-thumb { background: #F3B27A; border-radius: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.story-header { padding: 32px 32px 16px; border-bottom: 1px solid #FFE8D4; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.story-location { font-size: 1.9rem; font-weight: 650; color: #C57246; display: flex; align-items: center; gap: 12px; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.timeline-area { padding: 24px 28px; }</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.memory-card {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #FFFFFF;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 32px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 28px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid #FFEFE2;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.2s;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 2px 8px rgba(0,0,0,0.02);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.memory-card:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-color: #FFDFC4;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 6px 16px rgba(0,0,0,0.06);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: translateY(-2px);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.memory-date-badge {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #FEF0E4;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 12px 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-bottom: 1px solid #FFE8D4;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #D98A5C;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.9rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.memory-content {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.memory-title {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #6B4226;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.1rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.memory-desc {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.95rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #8D6B4F;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1.5;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.memory-photo {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 24px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #FEF7EF;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.memory-photo img {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-height: 280px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>object-fit: cover;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: block;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: transform 0.3s;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.memory-photo img:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: scale(1.02);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.close-story {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #FFFFFF; border: 1px solid #FFE0C0; font-size: 1.3rem; cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: sticky; top: 16px; left: 92%; width: 38px; height: 38px; border-radius: 40px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #C57246; margin: 16px 20px 0 auto; display: flex; align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center; z-index: 15; transition: 0.2s;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.close-story:hover { background: #FFF4E8; border-color: #F3B27A; transform: scale(1.02); }</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.pixel-marker { background: rgba(255, 250, 240, 0.92); backdrop-filter: blur(8px); border-radius: 40px; padding: 6px 18px; font-weight: 550; font-size: 0.85rem; color: #D98A5C; border: 1px solid #FFDEB8; font-family: monospace; white-space: nowrap; transition: 0.2s; cursor: pointer; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.pixel-marker:hover { transform: scale(1.04); background: #FFFCF5; border-color: #F3B27A; }</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.easter-modal .story-card { background: #FFFEF8; max-width: 480px; border-radius: 56px; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.ferris-content { text-align: center; padding: 28px 28px 36px; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.ticket-icon { font-size: 3.8rem; margin-bottom: 8px; animation: float 2s infinite; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.ticket-title { font-size: 1.7rem; font-weight: 650; color: #D98A5C; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.ticket-message { background: #FFFCF8; border-radius: 36px; padding: 24px; margin: 24px 0; line-height: 1.55; font-size: 0.95rem; color: #7A5A44; border: 1px solid #FFEDDC; white-space: pre-wrap; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.surprise-btn { background: #F3B27A; border: none; padding: 12px 28px; border-radius: 50px; color: white; font-weight: 500; cursor: pointer; transition: 0.2s; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.surprise-btn:hover { background: #EAA064; transform: translateY(-2px); }</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>@media (max-width: 600px) { .story-location { font-size: 1.5rem; } .memory-card { margin-bottom: 20px; } .memory-photo img { max-height: 200px; } }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div id="loader-screen"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="pixel-loader"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="pixel-title"&gt;✦ 回忆星球 · 一周年 ✦&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="pixel-progress-container"&gt;&lt;div class="pixel-progress-fill" id="progressFill"&gt;&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="pixel-stats"&gt;&lt;span&gt;✦ LOADING&lt;/span&gt;&lt;span id="percentNum"&gt;0&lt;/span&gt;&lt;span&gt;%&lt;/span&gt;&lt;div class="pixel-block"&gt;&lt;/div&gt;&lt;div class="pixel-block"&gt;&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div style="margin-top:20px; color:#D48C54;"&gt;上海 · 香港 · 运城 | hwj &amp; sky&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div id="welcome-screen"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="welcome-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="welcome-icon"&gt;🥂🌍✨&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="welcome-title"&gt;臭宝&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="welcome-subtitle"&gt;欢迎来到我们的记忆宇宙&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="welcome-message"&gt;💛 点击地标，探索属于我们的回忆 💛&lt;br&gt;上海 · 香港 · 运城&lt;br&gt;每一帧都是我们的独家记忆&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="enter-btn" id="enterWorldBtn"&gt;✨ 开启回忆地球 ✨&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div id="main-app"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="hand-drawn-bg"&gt;&lt;img id="handdrawn-img" src="<span class="s1">https://i.ibb.co/h1yWyjnZ/6-CC21-DEB-B84-C-447-E-A85-F-379-C9-B0-A74-CA.jpg</span>" alt="手绘底图"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="canvas-container"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="anniversary-tag" id="easterEggTrigger"&gt;🎡 一周年惊喜 · 点击领取 🎡&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="explore-hint"&gt;✨ 滑动探索星球 · 点击地标展开回忆 ✨&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div id="storyModal" class="story-modal"&gt;&lt;div class="story-card"&gt;&lt;button class="close-story" id="closeStoryBtn"&gt;✕&lt;/button&gt;&lt;div id="modalDynamicContent"&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;div id="easterModal" class="story-modal easter-modal"&gt;&lt;div class="story-card"&gt;&lt;button class="close-story" id="closeEasterBtn"&gt;✕&lt;/button&gt;&lt;div class="ferris-content"&gt;&lt;div class="ticket-icon"&gt;🎡🎟️✨&lt;/div&gt;&lt;div class="ticket-title"&gt;一周年🎡之约&lt;/div&gt;&lt;div class="ticket-message" id="easterMessage"&gt;&lt;/div&gt;&lt;button class="surprise-btn" id="closeEasterBtn2"&gt;收下心意 💝&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;script type="module"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>import * as THREE from 'three';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>import { OrbitControls } from 'three/addons/controls/OrbitControls.js';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// ========== 地标数据 - 每条回忆图文混合 ==========</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 将您的真实图片链接替换下面 "photo" 字段即可</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const locationsData = [</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{</p>
+<p class="p1"><span class="Apple-converted-space">            </span>id: 1,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>name: "🌆 上海 · Shanghai",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>lat: 31.2304,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>lon: 121.4737,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>iconEmoji: "🌇",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>memories: [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ date: "2025.05.23", title: "故事的序章", desc: "为什么不试试💌 就这样开启了'我们'～", photo: "<span class="s1">https://i.ibb.co/VpkKqM5M/36-BB0682-E7-F9-4905-AC8-D-B82-DF989178-A-1-201-a.jpg</span>" },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ date: "2025.06.12", title: "专属情头", desc: "你说想和我用情头，于是我偷偷准备我们的一个月纪念礼，就这样画出我们的专属情头：Lydia和她的La casa Lydia。", photo: "<span class="s1">https://i.ibb.co/h1yWyjnZ/6-CC21-DEB-B84-C-447-E-A85-F-379-C9-B0-A74-CA.jpg</span>" },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ date: "2025.08.29", title: "七夕", desc: "石老师送我的第一束花", photo: "<span class="s1">https://i.ibb.co/67GHR1vj/IMG-3345.jpg</span>" },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ date: "2025.12.27", title: "见面后的第一顿饭", desc: "以后还要一起吃好多好多顿饭哦，吃遍各地美食吧～", photo: "<span class="s1">https://i.ibb.co/XrkwFtMx/IMG-5341.jpg</span>" }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>]</p>
+<p class="p1"><span class="Apple-converted-space">        </span>},</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{</p>
+<p class="p1"><span class="Apple-converted-space">            </span>id: 2,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>name: "🇭🇰 香港 · 第一次一起跨年",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>lat: 22.3193,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>lon: 114.1694,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>iconEmoji: "🧸",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>memories: [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ date: "2026.01.01", title: "西九龙夜景", desc: "西九龙海滨是我读书时最喜欢去的地方之一，圣诞的装饰刚好还没有卸去，这天，我带你一起去吹了吹维港的海风。", photo: "<span class="s1">https://i.ibb.co/MD7rjPXh/IMG-5384.jpg</span>" },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ date: "2026.01.02", title: "沙爹牛肉面", desc: "带你走过我走过的路，也带你品尝我喜欢的美食，这是你最爱的茶餐厅。", photo: "<span class="s1">https://i.ibb.co/fzw91pn8/IMG-5414.jpg</span>" }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>]</p>
+<p class="p1"><span class="Apple-converted-space">        </span>},</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{</p>
+<p class="p1"><span class="Apple-converted-space">            </span>id: 3,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>name: "🌆 上海 · Again",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>lat: 31.2304,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>lon: 121.4737,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>iconEmoji: "💌",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>memories: [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ date: "2026.01.23", title: "郁闷的一餐", desc: "虽然石老师精心挑选带我来品尝精致的西餐，但这天吵的很郁闷，历历在目…", photo: "<span class="s1">https://i.ibb.co/hRzbY7v8/F962-FE1-A-738-B-4-D88-A114-FD3-EF48-E60-DE-1-105-c.jpg</span>" },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ date: "2026.01.25", title: "满足石某人的心愿", desc: "你说恋爱后还没有一起去影院看过电影，来咯…", photo: "<span class="s1">https://i.ibb.co/Kzb9stMh/0-D8-F9-E34-4351-4-E7-E-BB31-FFBE5704-A9-D1-1-105-c.jpg</span>" },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ date: "2026.01.26", title: "生日", desc: "在一起后，臭宝陪我过的第一个生日，用心了石老师👩🏻‍❤️‍💋‍👨🏻", photo: "<span class="s1">https://i.ibb.co/k2Yq7Bnc/F139-EED0-15-EB-4572-A83-E-6-F7-B8-EF95-BBC-1-102-o.jpg</span>" },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ date: "2026.03.21", title: "故地重游·广富林", desc: "我们有第一张大头贴了诶！以后也要多多记录好不好💞", photo: "<span class="s1">https://i.ibb.co/v4qYSqc8/7-FE96192-1-A45-4-F95-B50-C-96-E5131-CA0-A8-1-201-a.jpg</span>" }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>]</p>
+<p class="p1"><span class="Apple-converted-space">        </span>},</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{</p>
+<p class="p1"><span class="Apple-converted-space">            </span>id: 4,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>name: "🏮 运城 · 第一次一起回家",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>lat: 35.0266,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>lon: 111.0070,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>iconEmoji: "🏮",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>memories: [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ date: "2026.02.11", title: "路过咸阳机场星巴克", desc: "某幼稚鬼在星巴克的留言本里写下…如图所示。", photo: "<span class="s1">https://i.ibb.co/zh2YJB0V/3-EA090-C3-D0-D4-4-EBB-8020-4-B12515-A0448-1-105-c.jpg</span>" },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ date: "2026.02.16", title: "重要成员出现！！！", desc: "石某人送了我只猫，这只猫的名字日后会被大家耳熟能详，因为频繁刷脸～～🥳是谁呢是谁呢，是元宝呀！！🐱", photo: "<span class="s1">https://i.ibb.co/bM83k4yj/IMG-5844.jpg</span>" },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ date: "2026.02.17", title: "小泥娃元宝", desc: "请欣赏，咳咳", photo: "<span class="s1">https://i.ibb.co/vCMtsHjW/IMG-5873.jpg</span>" }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>]</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const easterText = `🎫 一周年特别礼物 🎫\n\n臭宝，这是我们一周年纪念日的惊喜——\n🎡 摩天轮浪漫双人体验券 🎡\n\n📍 地点：上海\n📅 约定日：属于我们的下一个纪念日\n\n传说在摩天轮最高点拥抱的恋人，会一直一直在一起。\n某人一直说想和我一起坐摩天轮，我都悄悄记得哦。\n\n一周年快乐，帮你实现愿望了，臭小孩。\n——爱你的 Lydia 💕`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 进度条</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let progress = 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const progressFill = document.getElementById('progressFill');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const percentSpan = document.getElementById('percentNum');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const loaderScreen = document.getElementById('loader-screen');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const welcomeScreen = document.getElementById('welcome-screen');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const mainApp = document.getElementById('main-app');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const enterBtn = document.getElementById('enterWorldBtn');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const interval = setInterval(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (progress &lt; 100) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>progress += Math.floor(Math.random() * 4) + 2;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (progress &gt; 100) progress = 100;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>progressFill.style.width = progress + '%';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>percentSpan.innerText = progress;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (progress &gt;= 100) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>clearInterval(interval);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>loaderScreen.style.opacity = '0';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>loaderScreen.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>welcomeScreen.classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}, 500);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}, 300);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}, 40);</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (progress &lt; 100) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>progress = 100;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>progressFill.style.width = '100%';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>percentSpan.innerText = '100';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>clearInterval(interval);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>loaderScreen.style.opacity = '0';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>loaderScreen.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>welcomeScreen.classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}, 500);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}, 200);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}, 4000);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 3D地球</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let sceneReady = false;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let scene, camera, renderer, labelRenderer, controls, earth, clouds, stars, glowSphere;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function initEarth() {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (sceneReady) return;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>sceneReady = true;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const container = document.getElementById('canvas-container');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>scene = new THREE.Scene();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>scene.background = null;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>scene.fog = new THREE.FogExp2(0xFFF9E8, 0.006);</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>camera.position.set(0, 0.2, 3.6);</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });</p>
+<p class="p1"><span class="Apple-converted-space">        </span>renderer.setSize(window.innerWidth, window.innerHeight);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>renderer.setClearColor(0x000000, 0);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>container.appendChild(renderer.domElement);</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>labelRenderer = new CSS2DRenderer();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>labelRenderer.setSize(window.innerWidth, window.innerHeight);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>labelRenderer.domElement.style.position = 'absolute';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>labelRenderer.domElement.style.top = '0px';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>labelRenderer.domElement.style.left = '0px';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>labelRenderer.domElement.style.pointerEvents = 'auto';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>labelRenderer.domElement.style.zIndex = '10';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>container.appendChild(labelRenderer.domElement);</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>controls = new OrbitControls(camera, renderer.domElement);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>controls.enableDamping = true;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>controls.dampingFactor = 0.06;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>controls.autoRotate = true;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>controls.autoRotateSpeed = 0.7;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>controls.enableZoom = true;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>controls.enablePan = false;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>controls.zoomSpeed = 0.8;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>controls.rotateSpeed = 0.9;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>controls.target.set(0, 0, 0);</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const textureLoader = new THREE.TextureLoader();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const earthMap = textureLoader.load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const earthGeometry = new THREE.SphereGeometry(1.02, 96, 96);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const earthMaterial = new THREE.MeshStandardMaterial({ map: earthMap, roughness: 0.6, metalness: 0.05, color: 0xffe6cc });</p>
+<p class="p1"><span class="Apple-converted-space">        </span>earth = new THREE.Mesh(earthGeometry, earthMaterial);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>scene.add(earth);</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const cloudGeometry = new THREE.SphereGeometry(1.04, 64, 64);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const cloudMat = new THREE.MeshPhongMaterial({ color: 0xfff0dd, transparent: true, opacity: 0.12, blending: THREE.AdditiveBlending });</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clouds = new THREE.Mesh(cloudGeometry, cloudMat);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>scene.add(clouds);</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const starCount = 1400;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const starPositions = new Float32Array(starCount * 3);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>for (let i = 0; i &lt; starCount; i++) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>starPositions[i*3] = (Math.random() - 0.5) * 500;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>starPositions[i*3+1] = (Math.random() - 0.5) * 350;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>starPositions[i*3+2] = (Math.random() - 0.5) * 150 - 50;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const starGeo = new THREE.BufferGeometry();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const starMat = new THREE.PointsMaterial({ color: 0xffd8aa, size: 0.18, transparent: true, opacity: 0.6 });</p>
+<p class="p1"><span class="Apple-converted-space">        </span>stars = new THREE.Points(starGeo, starMat);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>scene.add(stars);</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const ambient = new THREE.AmbientLight(0x6a5a4a);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>scene.add(ambient);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const mainLight = new THREE.DirectionalLight(0xffeedd, 1.0);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mainLight.position.set(4, 3, 2);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>scene.add(mainLight);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const fillLight = new THREE.PointLight(0xffbb88, 0.45);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>fillLight.position.set(1, 2, 2);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>scene.add(fillLight);</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const glowMat = new THREE.MeshBasicMaterial({ color: 0xffddbb, transparent: true, opacity: 0.05, side: THREE.BackSide });</p>
+<p class="p1"><span class="Apple-converted-space">        </span>glowSphere = new THREE.Mesh(new THREE.SphereGeometry(1.12, 32, 32), glowMat);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>scene.add(glowSphere);</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const radius = 1.07;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function lngLatToVector3(lng, lat, r = radius) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const phi = (90 - lat) * Math.PI / 180;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const theta = lng * Math.PI / 180;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return new THREE.Vector3(r * Math.sin(phi) * Math.cos(theta), r * Math.cos(phi), r * Math.sin(phi) * Math.sin(theta));</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>locationsData.forEach(point =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const pos = lngLatToVector3(point.lon, point.lat, radius + 0.02);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const div = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>div.innerHTML = `&lt;div class="pixel-marker"&gt;${point.iconEmoji} ${point.name.split('·')[0]}&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>div.style.cursor = 'pointer';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const labelObj = new CSS2DObject(div);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>labelObj.position.copy(pos);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>scene.add(labelObj);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>div.addEventListener('click', (e) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>e.stopPropagation();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>openStoryModal(point);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>controls.autoRotate = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setTimeout(() =&gt; { if (controls &amp;&amp; !controls.autoRotate) setTimeout(() =&gt; { if(controls) controls.autoRotate = true; }, 7000); }, 150);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const dotGeo = new THREE.SphereGeometry(0.024, 12, 12);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const dotMat = new THREE.MeshStandardMaterial({ color: 0xffb87c, emissive: 0xffaa66, emissiveIntensity: 0.5 });</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const dot = new THREE.Mesh(dotGeo, dotMat);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>dot.position.copy(pos);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>scene.add(dot);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function animate() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>requestAnimationFrame(animate);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (clouds) clouds.rotation.y += 0.0007;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (stars) { stars.rotation.y += 0.0003; stars.rotation.x += 0.0001; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (glowSphere) glowSphere.rotation.y += 0.0004;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (controls) controls.update();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (renderer &amp;&amp; scene &amp;&amp; camera) renderer.render(scene, camera);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (labelRenderer &amp;&amp; scene &amp;&amp; camera) labelRenderer.render(scene, camera);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>animate();</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.addEventListener('resize', onWindowResize);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function onWindowResize() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>camera.aspect = window.innerWidth / window.innerHeight;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>camera.updateProjectionMatrix();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderer.setSize(window.innerWidth, window.innerHeight);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>labelRenderer.setSize(window.innerWidth, window.innerHeight);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const storyModal = document.getElementById('storyModal');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const modalContentDiv = document.getElementById('modalDynamicContent');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const closeStoryBtn = document.getElementById('closeStoryBtn');</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function openStoryModal(point) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let memoriesHtml = '';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>point.memories.forEach(memory =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>memoriesHtml += `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="memory-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="memory-date-badge"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span&gt;📅&lt;/span&gt; ${memory.date}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="memory-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="memory-title"&gt;✨ ${memory.title}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="memory-desc"&gt;${memory.desc}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="memory-photo"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;img src="${memory.photo}" alt="${memory.title}" loading="lazy"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                                 </span>onerror="this.src='https://picsum.photos/600/400?random=${Math.random()}'"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const fullHtml = `</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="story-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="story-location"&gt;&lt;span&gt;${point.iconEmoji}&lt;/span&gt; ${point.name}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div style="font-size:0.75rem; color:#C98A60; margin-top:8px;"&gt;❤️ 每一段回忆，都有专属的画面&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="timeline-area"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>${memoriesHtml}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>modalContentDiv.innerHTML = fullHtml;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>storyModal.classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function closeStoryModal() { storyModal.classList.remove('active'); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>closeStoryBtn.addEventListener('click', closeStoryModal);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>storyModal.addEventListener('click', (e) =&gt; { if(e.target === storyModal) closeStoryModal(); });</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const easterModalDiv = document.getElementById('easterModal');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const easterTrigger = document.getElementById('easterEggTrigger');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const closeEaster = document.getElementById('closeEasterBtn');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const closeEaster2 = document.getElementById('closeEasterBtn2');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const easterMsgSpan = document.getElementById('easterMessage');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(easterMsgSpan) easterMsgSpan.innerText = easterText;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function openEaster() { easterModalDiv.classList.add('active'); if(controls) { controls.autoRotate = false; setTimeout(() =&gt; { if(controls &amp;&amp; !controls.autoRotate) setTimeout(() =&gt; { if(controls) controls.autoRotate = true; }, 6000); }, 200); } }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function closeEasterModal() { easterModalDiv.classList.remove('active'); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>easterTrigger.addEventListener('click', openEaster);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>closeEaster.addEventListener('click', closeEasterModal);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>closeEaster2.addEventListener('click', closeEasterModal);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>easterModalDiv.addEventListener('click', (e) =&gt; { if(e.target === easterModalDiv) closeEasterModal(); });</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>enterBtn.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>welcomeScreen.classList.remove('active');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mainApp.classList.add('visible');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setTimeout(() =&gt; { if (!sceneReady) initEarth(); }, 200);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>console.log('%c✨ hwj &amp; sky · 一周年快乐 ✨', 'color:#F3B27A; font-size:14px');</p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
